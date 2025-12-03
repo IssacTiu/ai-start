@@ -205,3 +205,27 @@ figure {
     border-top-color: var(--blue);
     border-left-color: var(--blue);
 }
+
+.slider {
+    display: flex;
+    align-items: center;
+}
+
+.slider .letter-tiles {
+    flex: 1;
+    position: relative;
+    overflow-x: hidden;
+    height: 500px;
+}
+
+.slider .tile-wrapper {
+    position: absolute;
+    width: 100%;
+    left: 100%;
+    transition: 1s;
+    text-align: center;
+}
+
+.slider img {
+    max-width: 475px;
+}

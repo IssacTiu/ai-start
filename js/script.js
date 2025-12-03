@@ -15,16 +15,45 @@ function changeTitle() {
 
 $("#grid").on("click", function () {
     $(".tiles").removeClass("type")
+    $(".tiles").removeClass("slider")
     $(".tile-blank").hide()
+    $(".button").removeClass("active")
     $(this).addClass("active")
-    $("#abc").removeClass("active")
 })
 
 $("#abc").on("click", function () {
     $(".tiles").addClass("type")
+    $(".tiles").removeClass("slider")
     $(".tile-blank").show()
+    $(".button").removeClass("active")
     $(this).addClass("active")
-    $("#grid").removeClass("active")
+})
+
+$("#slider").on("click", function(){
+    $(".tiles").addClass("slider")
+    $(".tiles").removeClass("type")
+    $(".button").removeClass("active")
+    $(this).addClass("active")
+
+    $(slides[slideCounter]).css("left", "0");
+})
+
+$("#next").on("click", function(){
+    $(slides[slideCounter]).css("left", "-100%");
+    slideCounter++;
+    if (slideCounter >= slides.length) {
+        slideCounter = 0;
+    }
+    $(slides[slideCounter]).css("left", "0");
+})
+
+$("#prev").on("click", function(){
+    $(slides[slideCounter]).css("left", "100%");
+    slideCounter--;
+    if (slideCounter < 0) {
+        slideCounter = slides.length - 1;
+    }
+    $(slides[slideCounter]).css("left", "0");
 })
 
 var light = true;
@@ -47,8 +76,22 @@ $("#dark").on("click", function () {
 
 $("#logo").on("click", changeLogo)
 
+var logos = [["assets/abint-logo.svg", "Abundant Intelligence"], ["assets/ulag_logo_black.webp", "Ulethbridge Art Gallery"], ["assets/NFRF.png", "New Frontiers"], ["assets/UofL.svg", "University of Lethbridge"]];
+var currentLogo = 0;
+
 function changeLogo() {
-    $(this).attr("src", "assets/ulag_logo_black.webp").attr("alt", "ULethbridge Art Gallery Logo");
+    /*currentLogo++;
+    if (currentLogo > logos.length - 1) {
+        currentLogo = 0;
+    }*/
+    var oldRand = currentLogo;
+    currentLogo = Math.floor(Math.random() * logos.length);
+    while (oldRand === currentLogo) {
+        currentLogo = Math.floor(Math.random() * logos.length);
+    }
+    console.log(currentLogo);
+
+    $(this).attr("src", logos[currentLogo][0]).attr("alt", logos[currentLogo][1]);
 }
 //////////////////////////////////////////////////
 
@@ -60,6 +103,13 @@ function showFunders() {
 }
 
 $(".tile").wrap("<div class='tile-wrapper'></div>")
+
+var slides = [];
+var slideCounter = 0;
+$(".tile-wrapper").each(function(){
+    slides.push($(this))
+})
+
 
 $(".type .tile img").on("click", function() {
     $(this).parent().css("transform", "rotateY(180deg)")
